@@ -2,14 +2,11 @@ const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
-const Body = Matter.Body;
-const Render = Matter.Render;
 
 var engine, world;
 var holder,ball,ground;
 var stand1,stand2;
 var ball;
-var launcherObject, polygonObject;
 var slingShot;
 var polygon_img;
 function preload(){
@@ -23,8 +20,6 @@ function setup() {
   ground = new Ground();
   stand1 = new Stand(390,300,250,10);
   stand2 = new Stand(700,200,200,10);
-  polygonObject= new Polygon(235,420,30);
-  
  
   //level one
   block1 = new Block(300,275,30,40);
@@ -47,41 +42,40 @@ function setup() {
   block15 = new Block(420,195,30,40);
   //top
   block16 = new Block(390,155,30,40);
-  block17= new Block(630,175,30,40);
-  block18=new Block(660,175,30,40);
-  block19= new Block(690,175,30,40);
-  block20= new Block(720,175,30,40);
-  block21= new Block(750,175,30,40);
-  block22= new Block(780,175,30,40);
-  
-  //level2
-  block23= new Block(660,135,30,40);
-  block24= new Block(690,135,30,40);
-  block25= new Block(720,135,30,40);
-  block26= new Block(750,135,30,40);
-  //level3
-  block27= new Block(690,95,30,40);
-  block28= new Block(720,95,30,40);
-//level4
-block29= new Block(705,55,30,40);
 
+  //set 2 for second stand
+  //level one
+  blocks1 = new Block(640,175,30,40);
+  blocks2 = new Block(670,175,30,40);
+  blocks3 = new Block(700,175,30,40);
+  blocks4 = new Block(730,175,30,40);
+  blocks5 = new Block(760,175,30,40);
+  //level two
+  blocks6 = new Block(670,135,30,40);
+  blocks7 = new Block(700,135,30,40);
+  blocks8 = new Block(730,135,30,40);
+  //top
+  blocks9 = new Block(700,95,30,40);
 
+  //ball holder with slings
+  ball = Bodies.circle(50,200,20);
+  World.add(world,ball);
 
-  
+  slingShot = new Slingshot(this.ball,{x:100,y:200});
 
 }
 function draw() {
   background(56,44,44); 
  
+  //Engine.update(engine);
+  //text(mouseX + ',' + mouseY, 10, 15);
   textSize(20);
   fill("lightyellow");
-  
+  text("Drag the Hexagonal Stone and Release it, to launch it towards the blocks",100,30);
 
   ground.display();
   stand1.display();
   stand2.display();
-  polygonObject.display();
-  
   strokeWeight(2);
   stroke(15);
   fill("skyblue");
@@ -104,35 +98,27 @@ function draw() {
   block15.display();
   fill("grey");
   block16.display();
-  fill("blue");
-  block17.display();
-  block18.display();
-  block19.display();
-  block20.display();
-  block21.display();
-  block22.display();
-  fill(" orange");
-  block23.display();
-  block24.display();
-  block24.display();
-  block25.display();
-  block26.display();
+  fill("skyblue");
+  blocks1.display();
+  blocks2.display();
+  blocks3.display();
+  blocks4.display();
+  blocks5.display();
+  fill("turquoise");
+  blocks6.display();
+  blocks7.display();
+  blocks8.display();
   fill("pink")
-  block27.display();
-  block28.display();
-  fill("red")
-  block29.display();
-  function mouseDragged()
-  {
-    Matter.Body.setPosition(stoneObj.body, {x:mouseX, y:mouseY}) 
-  }
-  
-  function mouseReleased()
-  {
-    launcherObject.fly();
-      // distance=int(dist(stoneObj.x,stoneObj.y,mango1.x,mango1.y));
-  }
-  
- 
+  blocks9.display();
+  fill("gold");
+  imageMode(CENTER)
+  image(polygon_img ,ball.position.x,ball.position.y,40,40);
 
+  slingShot.display();
+}
+function mouseDragged(){
+  Matter.Body.setPosition(this.ball,{x:mouseX,y:mouseY});
+}
+function mouseReleased(){
+  slingShot.fly();
 }
